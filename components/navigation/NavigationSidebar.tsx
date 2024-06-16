@@ -1,5 +1,6 @@
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
+import { ModeSelect } from '../ModeSelect';
 
 export default function NavigationSidebar() {
   return (
@@ -25,6 +26,7 @@ export default function NavigationSidebar() {
         </ul>
       </nav>
       <div className='mb-3 mt-auto flex items-center flex-col gap-y-4'>
+        <ModeSelect />
         <button
           onClick={() => signOut({ callbackUrl: '/' })}
           className='hover:bh-gray-100'
