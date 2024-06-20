@@ -1,68 +1,59 @@
-// MobileNavigationTopBar.test.js
-import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
+import { useModalStore } from '@/hooks/useModalStore';
 import MobileNavigationTopBar from './MobileNavigationTopBar';
+import NavigationMenuModal from '../modals/NavigationMenuModal';
 
-describe('MobileNavigationTopBar', () => {
+jest.mock('@/hooks/useModalStore');
+
+describe('MobileNavigationTopBar and NavigationMenuModal', () => {
+  const openModal = jest.fn();
+  const closeModal = jest.fn();
+
+  beforeEach(() => {
+    openModal.mockReset();
+    closeModal.mockReset();
+
+    useModalStore.mockReturnValue({
+      openModal,
+      closeModal,
+      isOpen: false,
+      type: null,
+    });
+  });
+
   test('renders the menu button', () => {
     render(<MobileNavigationTopBar />);
     const menuButton = screen.getByLabelText('menu');
     expect(menuButton).toBeInTheDocument();
   });
 
-  test('toggles the menu on button click', () => {
-    render(<MobileNavigationTopBar />);
+  test('opens the menu modal when the menu button is clicked', () => {
+    render(
+      <>
+        <MobileNavigationTopBar />
+        <NavigationMenuModal />
+      </>
+    );
+
     const menuButton = screen.getByLabelText('menu');
-
-    // Initially, the menu should not be visible
-    expect(screen.queryByText('Home')).not.toBeInTheDocument();
-
-    // Click the menu button to open the menu
     fireEvent.click(menuButton);
-    expect(screen.getByText('Home')).toBeInTheDocument();
 
-    // Click the menu button again to close the menu
-    fireEvent.click(menuButton);
-    expect(screen.queryByText('Home')).not.toBeInTheDocument();
+    expect(openModal).toHaveBeenCalledWith('navigationMenu');
   });
 
-  test('displays all navigation links when menu is open', () => {
-    render(<MobileNavigationTopBar />);
-    const menuButton = screen.getByLabelText('menu');
+  test('displays the modal when openModal is called with "navigationMenu"', () => {
+    useModalStore.mockReturnValue({
+      openModal,
+      closeModal,
+      isOpen: true,
+      type: 'navigationMenu',
+    });
 
-    // Open the menu
-    fireEvent.click(menuButton);
+    render(<NavigationMenuModal />);
 
-    // Check that all links are present
-    expect(screen.getByText('Home')).toBeInTheDocument();
-    expect(screen.getByText('About')).toBeInTheDocument();
-    expect(screen.getByText('Services')).toBeInTheDocument();
-    expect(screen.getByText('Contact')).toBeInTheDocument();
-  });
+    const dialogContent = screen.getByRole('dialog');
 
-  test('navigates to correct section on link click', () => {
-    render(<MobileNavigationTopBar />);
-    const menuButton = screen.getByLabelText('menu');
-
-    // Open the menu
-    fireEvent.click(menuButton);
-
-    // Mock the window location hash change
-    const homeLink = screen.getByText('Home');
-    fireEvent.click(homeLink);
-    expect(window.location.hash).toBe('#home');
-
-    const aboutLink = screen.getByText('About');
-    fireEvent.click(aboutLink);
-    expect(window.location.hash).toBe('#about');
-
-    const servicesLink = screen.getByText('Services');
-    fireEvent.click(servicesLink);
-    expect(window.location.hash).toBe('#services');
-
-    const contactLink = screen.getByText('Contact');
-    fireEvent.click(contactLink);
-    expect(window.location.hash).toBe('#contact');
+    expect(dialogContent).toBeInTheDocument();
   });
 });
