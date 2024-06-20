@@ -8,9 +8,9 @@ export default function NavigationMenuModal() {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={closeModal}>
-      <DialogContent>
-        <div>내 가계부</div>
-        <div>소셜</div>
+      <DialogContent className='w-full h-full flex flex-col gap-y-10 py-20'>
+        <button>내 가계부</button>
+        <button>소셜</button>
       </DialogContent>
     </Dialog>
   );
