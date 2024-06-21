@@ -5,7 +5,7 @@ import NavigationItem from './NavigationItem';
 
 export default function NavigationSidebar() {
   return (
-    <aside className='hidden sm:flex flex-col w-24'>
+    <aside className='hidden md:flex flex-col w-24'>
       <h2 className='text-2xl font-bold m-3'>LOGO</h2>
       <nav className='text-sm mx-3 mb-3'>
         <NavigationItem

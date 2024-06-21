@@ -6,7 +6,7 @@ export default function MobileNavigationTopBar() {
 
   return (
     <>
-      <div className='fixed top-0 left-0 w-full shadow-md flex md:hidden justify-between items-center p-4'>
+      <div className='fixed top-0 left-0 w-full shadow-sm flex sm:hidden justify-between items-center p-4'>
         <span>LOGO</span>
         <Menu aria-label='menu' onClick={() => openModal('navigationMenu')} />
       </div>
