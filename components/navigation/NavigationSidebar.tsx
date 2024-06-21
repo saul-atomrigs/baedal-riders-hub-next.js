@@ -1,5 +1,5 @@
 import { signOut } from 'next-auth/react';
-import { ModeSelect } from '../ModeSelect';
+import ModeSelect from '../ModeSelect';
 import { DollarSign, Users } from 'lucide-react';
 import NavigationItem from './NavigationItem';
 
