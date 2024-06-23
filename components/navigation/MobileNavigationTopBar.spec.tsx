@@ -4,7 +4,7 @@ import { useModalStore } from '@/hooks/useModalStore';
 import MobileNavigationTopBar from './MobileNavigationTopBar';
 import NavigationMenuModal from '../modals/NavigationMenuModal';
 
-jest.mock('@/hooks/useModalStore');
+jest.mock('../../hooks/useModalStore');
 
 describe('MobileNavigationTopBar and NavigationMenuModal', () => {
   const openModal = jest.fn();
@@ -14,7 +14,9 @@ describe('MobileNavigationTopBar and NavigationMenuModal', () => {
     openModal.mockReset();
     closeModal.mockReset();
 
-    useModalStore.mockReturnValue({
+    (
+      useModalStore as jest.MockedFunction<typeof useModalStore>
+    ).mockReturnValue({
       openModal,
       closeModal,
       isOpen: false,
@@ -43,7 +45,9 @@ describe('MobileNavigationTopBar and NavigationMenuModal', () => {
   });
 
   test('displays the modal when openModal is called with "navigationMenu"', () => {
-    useModalStore.mockReturnValue({
+    (
+      useModalStore as jest.MockedFunction<typeof useModalStore>
+    ).mockReturnValue({
       openModal,
       closeModal,
       isOpen: true,
