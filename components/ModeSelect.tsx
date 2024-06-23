@@ -35,13 +35,13 @@ export default function ModeSelect() {
           light
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme('dark')} aria-label='dark'>
-          Dark
+          dark
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => setTheme('system')}
           aria-label='system'
         >
-          System
+          system
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
