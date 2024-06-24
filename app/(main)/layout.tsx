@@ -1,5 +1,6 @@
 'use client';
 
+import LoadingBar from '@/components/LoadingBar';
 import {
   NavigationSidebar,
   MobileNavigationTopBar,
@@ -23,7 +24,7 @@ export default function MainLayout({
   }, [status, router]);
 
   if (status === 'loading') {
-    return <div>Loading...</div>;
+    return <LoadingBar />;
   }
 
   if (!session) {
