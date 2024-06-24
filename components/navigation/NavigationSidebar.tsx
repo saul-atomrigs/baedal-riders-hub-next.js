@@ -19,7 +19,7 @@ export default function NavigationSidebar() {
         <ModeSelect />
         홍길동 님
         <button
-          onClick={() => signOut({ callbackUrl: '/' })}
+          onClick={() => signOut({ callbackUrl: '/login' })}
           className='text-xs text-rose-500 hover:text-rose-600'
         >
           로그아웃
