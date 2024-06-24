@@ -52,6 +52,6 @@ describe('NavigationSidebar', () => {
     fireEvent.click(logoutButton);
 
     // Check if signOut was called with the correct callback URL
-    expect(signOut).toHaveBeenCalledWith({ callbackUrl: '/' });
+    expect(signOut).toHaveBeenCalledWith({ callbackUrl: '/login' });
   });
 });
