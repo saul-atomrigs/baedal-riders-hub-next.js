@@ -1,3 +1,4 @@
+import prisma from '@/lib/prismadb';
 import NextAuth from 'next-auth';
 import KakaoProvider from 'next-auth/providers/kakao';
 
