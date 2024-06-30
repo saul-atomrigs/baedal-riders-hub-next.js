@@ -1,9 +1,22 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
+import WeeklyCalendar from '@/components/WeeklyCalendar';
 
 export default function page() {
+  const [currentDate, setCurrentDate] = useState(new Date());
+
+  const handleDateClick = (date: Date) => {
+    setCurrentDate(date);
+  };
+
   return (
-    <div className='flex flex-col items-center justify-center min-h-screen gap-y-2'>
-      expenses
+    <div className='flex justify-center items-center h-screen'>
+      <WeeklyCalendar
+        label='이번주 실적'
+        currentDate={currentDate}
+        onDateClick={handleDateClick}
+      />
     </div>
   );
 }
