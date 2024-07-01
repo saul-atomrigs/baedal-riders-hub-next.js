@@ -13,8 +13,14 @@ export default function Panel({ currentDate }: PanelProps) {
       <h1>{formatDateInKorean(currentDate)}</h1>
 
       <div className='flex flex-col gap-1 mt-1'>
-        <Input badge={<BrandedBadge label='배민' variant='baemin' />} />
-        <Input badge={<BrandedBadge label='쿠팡' variant='coupang' />} />
+        <Input
+          placeholder='원'
+          badge={<BrandedBadge label='배민' variant='baemin' />}
+        />
+        <Input
+          placeholder='원'
+          badge={<BrandedBadge label='쿠팡' variant='coupang' />}
+        />
       </div>
     </div>
   );
