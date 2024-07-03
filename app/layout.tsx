@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { ModalProvider } from '@/components/providers/ModalProvider';
-import SessionProvider from '@/components/providers/SessionProvider';
+import { AuthProvider } from '@/components/providers/AuthProvider';
 
 export const metadata: Metadata = {
   title: 'Baedal Riders Hub',
@@ -17,12 +17,12 @@ export default function RootLayout({
   return (
     <html lang='en' suppressHydrationWarning>
       <body>
-        <SessionProvider>
+        <AuthProvider>
           <ThemeProvider attribute='class'>
             <ModalProvider />
             {children}
           </ThemeProvider>
-        </SessionProvider>
+        </AuthProvider>
       </body>
     </html>
   );
