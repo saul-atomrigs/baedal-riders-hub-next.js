@@ -20,7 +20,7 @@ export default function WeeklyCalendar({
       <h3>{label}</h3>
       <div className='grid grid-cols-7 gap-4'>
         {daysOfWeek.map((day, index) => {
-          const date = addDays(start, index);
+          const date = addDays(start, index + 1);
           return (
             <div
               key={day}
