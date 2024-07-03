@@ -1,37 +1,3 @@
 {
-  "env": {
-    "browser": true, // Enables browser global variables like 'window'
-    "es2021": true, // Enables ES2021 global variables and syntax
-    "node": true // Enables Node.js global variables and Node.js scoping
-  },
-  "extends": [
-    "eslint:recommended", // Uses the recommended rules from eslint
-    "plugin:react/recommended", // Uses the recommended rules from eslint-plugin-react
-    "next"
-  ],
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true // Enables parsing of JSX
-    },
-    "ecmaVersion": 12, // Specifies the version of ECMAScript syntax you want to use (12 corresponds to ES2021)
-    "sourceType": "module" // Allows the use of imports
-  },
-  "plugins": [
-    "react" // Uses eslint-plugin-react to lint React specific code
-  ],
-  "rules": {
-    "indent": ["error", 2], // Enforces a consistent indentation level of 2 spaces
-    "linebreak-style": ["error", "unix"], // Enforces the use of Unix line endings (LF)
-    "react/prop-types": "off", // Disables prop-types rule since TypeScript can be used for type checking
-    "react/react-in-jsx-scope": "off", // Disables the need to import React in files using JSX (React 17+)
-    "no-undef": "off", // Disables the need to define global variables
-    "no-unused-vars": "off", // Disables the need to define unused variables
-    "react/display-name": "off", // Disables the need to define display names
-    "react/no-children-prop": "off" // Disables the need to define children props
-  },
-  "settings": {
-    "react": {
-      "version": "detect" // Automatically detects the React version to use
-    }
-  }
+  "extends": "next/core-web-vitals"
 }
