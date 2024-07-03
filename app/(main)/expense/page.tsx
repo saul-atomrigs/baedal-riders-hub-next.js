@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import WeeklyCalendar from '@/components/WeeklyCalendar';
 import Panel from '@/components/Panel';
 
-export default function page() {
+export default function Page() {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   const handleDateClick = (date: Date) => {

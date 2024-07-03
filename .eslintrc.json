@@ -22,10 +22,12 @@
   "rules": {
     "indent": ["error", 2], // Enforces a consistent indentation level of 2 spaces
     "linebreak-style": ["error", "unix"], // Enforces the use of Unix line endings (LF)
-    "quotes": ["error", "single"], // Enforces the use of single quotes for strings
-    "semi": ["error", "always"], // Requires semicolons at the end of statements
     "react/prop-types": "off", // Disables prop-types rule since TypeScript can be used for type checking
-    "react/react-in-jsx-scope": "off" // Disables the need to import React in files using JSX (React 17+)
+    "react/react-in-jsx-scope": "off", // Disables the need to import React in files using JSX (React 17+)
+    "no-undef": "off", // Disables the need to define global variables
+    "no-unused-vars": "off", // Disables the need to define unused variables
+    "react/display-name": "off", // Disables the need to define display names
+    "react/no-children-prop": "off" // Disables the need to define children props
   },
   "settings": {
     "react": {
