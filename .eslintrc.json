@@ -6,7 +6,8 @@
   },
   "extends": [
     "eslint:recommended", // Uses the recommended rules from eslint
-    "plugin:react/recommended" // Uses the recommended rules from eslint-plugin-react
+    "plugin:react/recommended", // Uses the recommended rules from eslint-plugin-react
+    "next"
   ],
   "parserOptions": {
     "ecmaFeatures": {
