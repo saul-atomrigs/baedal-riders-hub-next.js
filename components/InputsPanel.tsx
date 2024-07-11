@@ -9,7 +9,7 @@ type PanelProps = {
   currentDate: Date;
 };
 
-export default function Panel({ currentDate }: PanelProps) {
+export default function InputsPanel({ currentDate }: PanelProps) {
   const [income, setIncome] = useState({
     baemin: 0,
   });
@@ -24,7 +24,7 @@ export default function Panel({ currentDate }: PanelProps) {
   };
 
   return (
-    <div>
+    <>
       <h1>{formatDateInKorean(currentDate)}</h1>
 
       <div className='flex flex-col gap-1 mt-1'>
@@ -43,6 +43,6 @@ export default function Panel({ currentDate }: PanelProps) {
         </form>
       </div>
       <button onClick={handlePost}>등록</button>
-    </div>
+    </>
   );
 }
