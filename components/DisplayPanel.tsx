@@ -1,3 +1,4 @@
+import { IncomeType } from '@/app/api/incomes/route';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
@@ -9,7 +10,7 @@ type DisplayPanelProps = {
 export default function DisplayPanel({ currentDate }: DisplayPanelProps) {
   const { data: session } = useSession();
   const kakaoId = session?.user?.id || '';
-  const [incomes, setIncomes] = useState([]);
+  const [incomes, setIncomes] = useState<IncomeType[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
