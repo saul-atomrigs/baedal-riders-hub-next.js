@@ -2,13 +2,11 @@
 
 import React, { useState } from 'react';
 import WeeklyCalendar from '@/components/WeeklyCalendar';
-import Panel from '@/components/Panel';
+import InputsPanel from '@/components/InputsPanel';
 import DisplayPanel from '@/components/DisplayPanel';
-import useHover from '@/hooks/useHover';
 
 export default function Page() {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const { isHovered, handleMouseEnter, handleMouseLeave } = useHover();
 
   const handleDateClick = (date: Date) => {
     setCurrentDate(date);
@@ -23,12 +21,10 @@ export default function Page() {
           onDateClick={handleDateClick}
         />
 
-        <div
-          className='w-full h-11 rounded-md p-2'
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-        >
-          {isHovered ? <Panel currentDate={currentDate} /> : <DisplayPanel />}
+        <div className='flex flex-col w-full h-11 rounded-md p-2'>
+          <DisplayPanel currentDate={currentDate} />
+
+          <InputsPanel currentDate={currentDate} />
         </div>
       </div>
     </div>

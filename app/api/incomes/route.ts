@@ -23,3 +23,28 @@ export async function POST(req: Request) {
     return new NextResponse('Internal Server Error', { status: 500 });
   }
 }
+
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const kakaoId = searchParams.get('kakaoId');
+
+  if (!kakaoId) {
+    return new NextResponse('Bad Request', { status: 400 });
+  }
+
+  try {
+    const userId = await getUserIdByKakaoId(kakaoId);
+    if (!userId) {
+      return new NextResponse('User Not Found', { status: 404 });
+    }
+
+    const incomes = await prisma.income.findMany({
+      where: { userId },
+    });
+
+    return NextResponse.json(incomes);
+  } catch (error) {
+    console.error('GET error', error);
+    return new NextResponse('Internal Server Error', { status: 500 });
+  }
+}
