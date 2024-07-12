@@ -12,6 +12,7 @@ type PanelProps = {
 export default function InputsPanel({ currentDate }: PanelProps) {
   const [income, setIncome] = useState({
     baemin: 0,
+    coupang: 0,
   });
   const { data: session } = useSession();
   const kakaoId = session?.user?.id || '';
@@ -20,6 +21,8 @@ export default function InputsPanel({ currentDate }: PanelProps) {
     await axios.post('/api/incomes', {
       kakaoId: kakaoId,
       baeminIncome: income.baemin,
+      coupangIncome: income.coupang,
+      createdAt: currentDate,
     });
   };
 
@@ -33,12 +36,15 @@ export default function InputsPanel({ currentDate }: PanelProps) {
             placeholder='원'
             badge={<BrandedBadge label='배민' variant='baemin' />}
             type='number'
-            value={income.baemin}
+            value={income.baemin || ''}
             onChange={(e) => setIncome({ ...income, baemin: +e.target.value })}
           />
           <Input
             placeholder='원'
             badge={<BrandedBadge label='쿠팡' variant='coupang' />}
+            type='number'
+            value={income.coupang || ''}
+            onChange={(e) => setIncome({ ...income, coupang: +e.target.value })}
           />
         </form>
       </div>
