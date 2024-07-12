@@ -3,10 +3,11 @@ import { getUserIdByKakaoId } from '@/lib/actions/getUserIdByKakaoId';
 import prisma from '@/lib/prismadb';
 
 export async function POST(req: Request) {
-  const { kakaoId, baeminIncome } = await new Response(req.body).json();
+  const { kakaoId, baeminIncome, coupangIncome, createdAt } =
+    await new Response(req.body).json();
 
-  if (!kakaoId || !baeminIncome) {
-    console.log('no kakaoId or baeminIncome');
+  if (!kakaoId || !baeminIncome || !coupangIncome) {
+    console.log('no kakaoId or income');
   }
 
   try {
@@ -14,6 +15,8 @@ export async function POST(req: Request) {
       data: {
         userId: (await getUserIdByKakaoId(kakaoId)) || '',
         baeminIncome,
+        coupangIncome,
+        createdAt,
       },
     });
 
@@ -51,5 +54,8 @@ export async function GET(req: Request) {
 
 export interface IncomeType {
   id: number;
-  baeminIncome: number;
+  baeminIncome?: number;
+  coupangIncome?: number;
+  createdAt: Date;
+  updatedAt: Date;
 }

@@ -23,7 +23,11 @@ model User {
 
 model Income {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  baeminIncome  Int
+  baeminIncome  Int?
+  coupangIncome Int?
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime? @updatedAt
 
   user          User     @relation(fields: [userId], references: [id])
   userId        String   @map("user_id") @db.ObjectId
