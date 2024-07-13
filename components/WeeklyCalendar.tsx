@@ -6,7 +6,6 @@ type WeeklyCalendarProps = {
   currentDate: Date;
   onDateClick: (date: Date) => void;
   incomes: IncomeType[];
-  barsData?: number[]; // Array of numbers representing the bar heights
 };
 
 export default function WeeklyCalendar({
