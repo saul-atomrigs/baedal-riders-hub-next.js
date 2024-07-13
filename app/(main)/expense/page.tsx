@@ -20,7 +20,20 @@ export default function Page() {
     setCurrentDate(date);
   };
 
-  const handleGetIncomes = async () => {
+  const handlePost = async (incomeData: {
+    baemin: number;
+    coupang: number;
+  }) => {
+    await axios.post('/api/incomes', {
+      kakaoId: kakaoId,
+      baeminIncome: incomeData.baemin,
+      coupangIncome: incomeData.coupang,
+      createdAt: currentDate,
+    });
+    fetchIncomes();
+  };
+
+  const fetchIncomes = async () => {
     try {
       const response = await axios.get(`/api/incomes?kakaoId=${kakaoId}`);
       setIncomes(response.data);
@@ -30,7 +43,7 @@ export default function Page() {
   };
 
   useEffect(() => {
-    handleGetIncomes();
+    fetchIncomes();
   }, [currentDate]);
 
   return (
@@ -46,7 +59,7 @@ export default function Page() {
         <div className='flex flex-col w-full h-11 rounded-md p-2'>
           <DisplayPanel currentDate={currentDate} />
 
-          <InputsPanel currentDate={currentDate} />
+          <InputsPanel currentDate={currentDate} onPost={handlePost} />
         </div>
       </div>
     </div>

@@ -7,9 +7,10 @@ import BrandedBadge from './BrandedBadge';
 
 type PanelProps = {
   currentDate: Date;
+  onPost: (incomeData: { baemin: number; coupang: number }) => void;
 };
 
-export default function InputsPanel({ currentDate }: PanelProps) {
+export default function InputsPanel({ currentDate, onPost }: PanelProps) {
   const [income, setIncome] = useState({
     baemin: 0,
     coupang: 0,
@@ -17,13 +18,9 @@ export default function InputsPanel({ currentDate }: PanelProps) {
   const { data: session } = useSession();
   const kakaoId = session?.user?.id || '';
 
-  const handlePost = async () => {
-    await axios.post('/api/incomes', {
-      kakaoId: kakaoId,
-      baeminIncome: income.baemin,
-      coupangIncome: income.coupang,
-      createdAt: currentDate,
-    });
+  const handlePost = (e: React.FormEvent) => {
+    e.preventDefault();
+    onPost(income);
   };
 
   return (
