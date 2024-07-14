@@ -1,17 +1,21 @@
 import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import { useSession } from 'next-auth/react';
 
 type IncomeProps = {
-  kakaoId: string;
   currentDate: Date;
 };
 
-type IncomeData = {
+export type IncomeData = {
+  id?: string;
   baemin: number;
   coupang: number;
 };
 
-const useIncome = ({ kakaoId, currentDate }: IncomeProps) => {
+const useIncome = ({ currentDate }: IncomeProps) => {
+  const { data: session } = useSession();
+  const kakaoId = session?.user?.id || '';
+
   const [incomes, setIncomes] = useState([]);
 
   const fetchIncomes = useCallback(async () => {
@@ -37,14 +41,27 @@ const useIncome = ({ kakaoId, currentDate }: IncomeProps) => {
     }
   };
 
+  const updateIncomes = async (incomeData: IncomeData) => {
+    try {
+      await axios.patch(`/api/incomes?id=${incomeData.id}`, {
+        baeminIncome: incomeData.baemin,
+        coupangIncome: incomeData.coupang,
+      });
+      fetchIncomes();
+    } catch (error) {
+      console.log('[update income]', error);
+    }
+  };
+
   useEffect(() => {
     fetchIncomes();
   }, [fetchIncomes]);
 
   return {
     incomes,
-    postIncomes,
     fetchIncomes,
+    postIncomes,
+    updateIncomes,
   };
 };
 
