@@ -8,12 +8,8 @@ import WeeklyCalendar from '@/components/WeeklyCalendar';
 import useIncome from '@/hooks/useIncome';
 
 export default function Page() {
-  const { data: session } = useSession();
-  const kakaoId = session?.user?.id || '';
-
   const [currentDate, setCurrentDate] = useState(new Date());
-  const { incomes, postIncomes, fetchIncomes } = useIncome({
-    kakaoId,
+  const { incomes, postIncomes, updateIncomes } = useIncome({
     currentDate,
   });
 
@@ -34,7 +30,12 @@ export default function Page() {
         <div className='flex flex-col w-full h-11 rounded-md p-2'>
           {/* <DisplayPanel currentDate={currentDate} /> */}
 
-          <InputsPanel currentDate={currentDate} onPost={postIncomes} />
+          <InputsPanel
+            currentDate={currentDate}
+            incomes={incomes}
+            postIncomes={postIncomes}
+            updateIncomes={updateIncomes}
+          />
         </div>
       </div>
     </div>

@@ -3,6 +3,7 @@ import { format, startOfWeek, addDays, isSameDay } from 'date-fns';
 import { Input } from './ui/input';
 import { saveInLocalStorage, getFromLocalStorage } from '@/lib/utils';
 import { useState, useEffect } from 'react';
+import useIncome from '@/hooks/useIncome';
 
 type WeeklyCalendarProps = {
   label: string;
@@ -18,6 +19,7 @@ export default function WeeklyCalendar({
   incomes,
 }: WeeklyCalendarProps) {
   const daysOfWeek = ['월', '화', '수', '목', '금', '토', '일'];
+  // const { incomes } = useIncome({ currentDate });
 
   const [targetIncome, setTargetIncome] = useState('');
 

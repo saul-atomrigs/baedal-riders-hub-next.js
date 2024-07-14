@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import { formatDateInKorean } from '@/lib/utils';
-import useIncome, { IncomeData } from '@/hooks/useIncome';
+import { type IncomeData } from '@/hooks/useIncome';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
 import BrandedBadge from './BrandedBadge';
@@ -9,11 +9,17 @@ import { IncomeType } from '@/app/api/incomes/route';
 
 type PanelProps = {
   currentDate: Date;
+  incomes: IncomeType[];
+  postIncomes: (incomeData: IncomeData) => void;
+  updateIncomes: (incomeData: IncomeData) => void;
 };
 
-export default function InputsPanel({ currentDate }: PanelProps) {
-  const { incomes, postIncomes, updateIncomes } = useIncome({ currentDate });
-
+export default function InputsPanel({
+  currentDate,
+  incomes,
+  postIncomes,
+  updateIncomes,
+}: PanelProps) {
   const [income, setIncome] = useState<IncomeData>({
     id: '',
     baemin: 0,
@@ -29,7 +35,7 @@ export default function InputsPanel({ currentDate }: PanelProps) {
       );
       if (currentIncome) {
         setIncome({
-          id: currentIncome.id,
+          id: currentIncome.id.toString(),
           baemin: currentIncome.baeminIncome || 0,
           coupang: currentIncome.coupangIncome || 0,
         });
