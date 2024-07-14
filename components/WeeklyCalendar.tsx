@@ -1,7 +1,7 @@
 import { type IncomeType } from '@/app/api/incomes/route';
 import { format, startOfWeek, addDays, isSameDay } from 'date-fns';
 import { Input } from './ui/input';
-import { saveInLocalStorage, getFromLocalStorage } from '@/lib/utils'; // Assuming there's a getFromLocalStorage function
+import { saveInLocalStorage, getFromLocalStorage } from '@/lib/utils';
 import { useState, useEffect } from 'react';
 
 type WeeklyCalendarProps = {
@@ -28,8 +28,7 @@ export default function WeeklyCalendar({
     }
   }, []);
 
-  /** saves the daily income in the local storage as {'targetIncome', income}  */
-  const handleTargetIncomeSave = () => {
+  const handleSaveTargetIncome = () => {
     if (incomes.length > 0) {
       saveInLocalStorage('targetIncome', targetIncome);
     }
@@ -62,7 +61,7 @@ export default function WeeklyCalendar({
             placeholder='원'
             value={targetIncome}
             onChange={(e) => setTargetIncome(e.target.value)}
-            onBlur={handleTargetIncomeSave}
+            onBlur={handleSaveTargetIncome}
           />
         </div>
       </div>

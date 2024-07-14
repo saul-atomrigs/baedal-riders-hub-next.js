@@ -57,7 +57,7 @@ export default function Page() {
         />
 
         <div className='flex flex-col w-full h-11 rounded-md p-2'>
-          <DisplayPanel currentDate={currentDate} />
+          {/* <DisplayPanel currentDate={currentDate} /> */}
 
           <InputsPanel currentDate={currentDate} onPost={handlePost} />
         </div>

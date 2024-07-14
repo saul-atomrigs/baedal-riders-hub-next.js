@@ -16,8 +16,6 @@ export default function InputsPanel({ currentDate, onPost }: PanelProps) {
     baemin: 0,
     coupang: 0,
   });
-  const { data: session } = useSession();
-  const kakaoId = session?.user?.id || '';
 
   const handlePost = (e: React.FormEvent) => {
     e.preventDefault();
