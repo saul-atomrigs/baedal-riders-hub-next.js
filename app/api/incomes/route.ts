@@ -52,6 +52,28 @@ export async function GET(req: Request) {
   }
 }
 
+export async function PATCH(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const id = searchParams.get('id');
+  const { baeminIncome, coupangIncome } = await new Response(req.body).json();
+
+  if (!id || !baeminIncome || !coupangIncome) {
+    return new NextResponse('Bad Request', { status: 400 });
+  }
+
+  try {
+    const income = await prisma.income.update({
+      where: { id: id },
+      data: { baeminIncome, coupangIncome },
+    });
+
+    return NextResponse.json(income);
+  } catch (error) {
+    console.error('PATCH error', error);
+    return new NextResponse('Internal Server Error', { status: 500 });
+  }
+}
+
 export interface IncomeType {
   id: number;
   baeminIncome?: number;

@@ -1,25 +1,66 @@
-import { useState } from 'react';
-import { useSession } from 'next-auth/react';
-import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { format } from 'date-fns';
 import { formatDateInKorean } from '@/lib/utils';
+import { type IncomeData } from '@/hooks/useIncome';
 import { Input } from './ui/input';
-import BrandedBadge from './BrandedBadge';
 import { Button } from './ui/button';
+import BrandedBadge from './BrandedBadge';
+import { IncomeType } from '@/app/api/incomes/route';
 
 type PanelProps = {
   currentDate: Date;
-  onPost: (incomeData: { baemin: number; coupang: number }) => void;
+  incomes: IncomeType[];
+  postIncomes: (incomeData: IncomeData) => void;
+  updateIncomes: (incomeData: IncomeData) => void;
 };
 
-export default function InputsPanel({ currentDate, onPost }: PanelProps) {
-  const [income, setIncome] = useState({
+export default function InputsPanel({
+  currentDate,
+  incomes,
+  postIncomes,
+  updateIncomes,
+}: PanelProps) {
+  const [income, setIncome] = useState<IncomeData>({
+    id: '',
     baemin: 0,
     coupang: 0,
   });
 
+  useEffect(() => {
+    const fetchIncome = () => {
+      const dateStr = format(currentDate, 'yyyy-MM-dd');
+      const currentIncome = incomes.find(
+        (income: IncomeType) =>
+          format(new Date(income.createdAt), 'yyyy-MM-dd') === dateStr
+      );
+      if (currentIncome) {
+        setIncome({
+          id: currentIncome.id.toString(),
+          baemin: currentIncome.baeminIncome || 0,
+          coupang: currentIncome.coupangIncome || 0,
+        });
+      } else {
+        setIncome({ id: '', baemin: 0, coupang: 0 });
+      }
+    };
+
+    fetchIncome();
+  }, [currentDate, incomes]);
+
   const handlePost = (e: React.FormEvent) => {
     e.preventDefault();
-    onPost(income);
+    if (income.id) {
+      updateIncomes({
+        id: income.id,
+        baemin: income.baemin,
+        coupang: income.coupang,
+      });
+    } else {
+      postIncomes({
+        baemin: income.baemin,
+        coupang: income.coupang,
+      });
+    }
   };
 
   return (
@@ -31,14 +72,14 @@ export default function InputsPanel({ currentDate, onPost }: PanelProps) {
           placeholder='원'
           badge={<BrandedBadge label='배민' variant='baemin' />}
           type='number'
-          value={income.baemin || ''}
+          value={income.baemin}
           onChange={(e) => setIncome({ ...income, baemin: +e.target.value })}
         />
         <Input
           placeholder='원'
           badge={<BrandedBadge label='쿠팡' variant='coupang' />}
           type='number'
-          value={income.coupang || ''}
+          value={income.coupang}
           onChange={(e) => setIncome({ ...income, coupang: +e.target.value })}
         />
       </form>
