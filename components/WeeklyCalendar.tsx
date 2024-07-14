@@ -1,9 +1,7 @@
 import { type IncomeType } from '@/app/api/incomes/route';
 import { format, startOfWeek, addDays, isSameDay } from 'date-fns';
 import { Input } from './ui/input';
-import { saveInLocalStorage, getFromLocalStorage } from '@/lib/utils';
-import { useState, useEffect } from 'react';
-import useIncome from '@/hooks/useIncome';
+import useTargetIncome from '@/hooks/useTargetIncome';
 
 type WeeklyCalendarProps = {
   label: string;
@@ -18,24 +16,10 @@ export default function WeeklyCalendar({
   onDateClick,
   incomes,
 }: WeeklyCalendarProps) {
+  const { targetIncome, setTargetIncome, handleSaveTargetIncome } =
+    useTargetIncome({ incomes });
+
   const daysOfWeek = ['월', '화', '수', '목', '금', '토', '일'];
-  // const { incomes } = useIncome({ currentDate });
-
-  const [targetIncome, setTargetIncome] = useState('');
-
-  useEffect(() => {
-    const savedTargetIncome = getFromLocalStorage('targetIncome');
-    if (savedTargetIncome) {
-      setTargetIncome(savedTargetIncome);
-    }
-  }, []);
-
-  const handleSaveTargetIncome = () => {
-    if (incomes.length > 0) {
-      saveInLocalStorage('targetIncome', targetIncome);
-    }
-  };
-
   const start = startOfWeek(currentDate, { weekStartsOn: 1 });
 
   const incomeMap: { [date: string]: number } = {};
