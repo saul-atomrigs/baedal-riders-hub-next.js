@@ -1,5 +1,8 @@
 import { type IncomeType } from '@/app/api/incomes/route';
 import { format, startOfWeek, addDays, isSameDay } from 'date-fns';
+import { Input } from './ui/input';
+import { saveInLocalStorage, getFromLocalStorage } from '@/lib/utils'; // Assuming there's a getFromLocalStorage function
+import { useState, useEffect } from 'react';
 
 type WeeklyCalendarProps = {
   label: string;
@@ -15,6 +18,22 @@ export default function WeeklyCalendar({
   incomes,
 }: WeeklyCalendarProps) {
   const daysOfWeek = ['월', '화', '수', '목', '금', '토', '일'];
+
+  const [targetIncome, setTargetIncome] = useState('');
+
+  useEffect(() => {
+    const savedTargetIncome = getFromLocalStorage('targetIncome');
+    if (savedTargetIncome) {
+      setTargetIncome(savedTargetIncome);
+    }
+  }, []);
+
+  /** saves the daily income in the local storage as {'targetIncome', income}  */
+  const handleTargetIncomeSave = () => {
+    if (incomes.length > 0) {
+      saveInLocalStorage('targetIncome', targetIncome);
+    }
+  };
 
   const start = startOfWeek(currentDate, { weekStartsOn: 1 });
 
@@ -34,7 +53,19 @@ export default function WeeklyCalendar({
 
   return (
     <div className='flex flex-col gap-3'>
-      <h3>{label}</h3>
+      <div className='flex justify-between'>
+        <h3>{label}</h3>
+        <div className=''>
+          <p>일일 목표</p>
+          <Input
+            type='number'
+            placeholder='원'
+            value={targetIncome}
+            onChange={(e) => setTargetIncome(e.target.value)}
+            onBlur={handleTargetIncomeSave}
+          />
+        </div>
+      </div>
       <div className='grid grid-cols-7 gap-4'>
         {daysOfWeek.map((day, index) => {
           const date = addDays(start, index);
@@ -48,7 +79,9 @@ export default function WeeklyCalendar({
               <div className='flex flex-col-reverse items-center h-24 mb-2'>
                 <div
                   className='bg-blue-500 w-4'
-                  style={{ height: `${barsData[index] / 1000}px` }}
+                  style={{
+                    height: `${(barsData[index] * 100) / +targetIncome}px`,
+                  }}
                 />
               </div>
               <div
