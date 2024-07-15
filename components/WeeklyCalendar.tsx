@@ -2,6 +2,7 @@ import { type IncomeType } from '@/app/api/incomes/route';
 import { format, startOfWeek, addDays, isSameDay } from 'date-fns';
 import { Input } from './ui/input';
 import useTargetIncome from '@/hooks/useTargetIncome';
+import WeekSelect from './WeekSelect';
 
 type WeeklyCalendarProps = {
   label: string;
@@ -39,8 +40,11 @@ export default function WeeklyCalendar({
   return (
     <div className='flex flex-col gap-3'>
       <div className='flex justify-between'>
-        <h3>{label}</h3>
-        <div className=''>
+        <div className='w-[150px]'>
+          <h3>{label}</h3>
+          <WeekSelect />
+        </div>
+        <div className='w-[100px]'>
           <p>일일 목표</p>
           <Input
             type='number'
