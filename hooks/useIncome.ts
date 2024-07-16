@@ -18,14 +18,21 @@ const useIncome = ({ currentDate }: IncomeProps) => {
 
   const [incomes, setIncomes] = useState([]);
 
-  const fetchIncomes = useCallback(async () => {
-    try {
-      const response = await axios.get(`/api/incomes?kakaoId=${kakaoId}`);
-      setIncomes(response.data);
-    } catch (error) {
-      console.log('[incomes page]', error);
-    }
-  }, [kakaoId]);
+  const fetchIncomes = useCallback(
+    async (startDate?: string, endDate?: string) => {
+      try {
+        let url = `/api/incomes?kakaoId=${kakaoId}`;
+        if (startDate && endDate) {
+          url += `&startDate=${startDate}&endDate=${endDate}`;
+        }
+        const response = await axios.get(url);
+        setIncomes(response.data);
+      } catch (error) {
+        console.log('[incomes page]', error);
+      }
+    },
+    [kakaoId]
+  );
 
   const postIncomes = async (incomeData: IncomeData) => {
     try {
@@ -54,7 +61,14 @@ const useIncome = ({ currentDate }: IncomeProps) => {
   };
 
   useEffect(() => {
-    fetchIncomes();
+    const currentDate = new Date();
+    const firstDayOfWeek = new Date(
+      currentDate.setDate(currentDate.getDate() - currentDate.getDay())
+    );
+    const lastDayOfWeek = new Date(
+      currentDate.setDate(currentDate.getDate() - currentDate.getDay() + 6)
+    );
+    fetchIncomes(firstDayOfWeek.toISOString(), lastDayOfWeek.toISOString());
   }, [fetchIncomes]);
 
   return {

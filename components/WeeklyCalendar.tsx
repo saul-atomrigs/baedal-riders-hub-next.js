@@ -1,13 +1,16 @@
+import { format, addDays, isSameDay } from 'date-fns';
 import { type IncomeType } from '@/app/api/incomes/route';
-import { format, startOfWeek, addDays, isSameDay } from 'date-fns';
 import { Input } from './ui/input';
+import WeekSelect from './WeekSelect';
 import useTargetIncome from '@/hooks/useTargetIncome';
+import useSelectWeek from '@/hooks/useSelectWeek';
 
 type WeeklyCalendarProps = {
   label: string;
   currentDate: Date;
   onDateClick: (date: Date) => void;
   incomes: IncomeType[];
+  fetchIncomes: (startDate: string, endDate: string) => void;
 };
 
 export default function WeeklyCalendar({
@@ -15,12 +18,16 @@ export default function WeeklyCalendar({
   currentDate,
   onDateClick,
   incomes,
+  fetchIncomes,
 }: WeeklyCalendarProps) {
   const { targetIncome, setTargetIncome, handleSaveTargetIncome } =
     useTargetIncome({ incomes });
+  const { selectedWeekStart, handleSelectWeek } = useSelectWeek({
+    currentDate,
+    fetchIncomes,
+  });
 
   const daysOfWeek = ['월', '화', '수', '목', '금', '토', '일'];
-  const start = startOfWeek(currentDate, { weekStartsOn: 1 });
 
   const incomeMap: { [date: string]: number } = {};
   incomes.forEach((income) => {
@@ -32,15 +39,18 @@ export default function WeeklyCalendar({
   });
 
   const barsData = daysOfWeek.map((_, index) => {
-    const date = format(addDays(start, index), 'yyyy-MM-dd');
+    const date = format(addDays(selectedWeekStart, index), 'yyyy-MM-dd');
     return incomeMap[date] || 0;
   });
 
   return (
     <div className='flex flex-col gap-3'>
       <div className='flex justify-between'>
-        <h3>{label}</h3>
-        <div className=''>
+        <div className='w-[150px]'>
+          <h3>{label}</h3>
+          <WeekSelect onSelectWeek={handleSelectWeek} />
+        </div>
+        <div className='w-[100px]'>
           <p>일일 목표</p>
           <Input
             type='number'
@@ -53,7 +63,7 @@ export default function WeeklyCalendar({
       </div>
       <div className='grid grid-cols-7 gap-4'>
         {daysOfWeek.map((day, index) => {
-          const date = addDays(start, index);
+          const date = addDays(selectedWeekStart, index);
           return (
             <div
               key={day}
