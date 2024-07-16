@@ -30,6 +30,8 @@ export async function POST(req: Request) {
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const kakaoId = searchParams.get('kakaoId');
+  const startDate = searchParams.get('startDate');
+  const endDate = searchParams.get('endDate');
 
   if (!kakaoId) {
     return new NextResponse('Bad Request', { status: 400 });
@@ -41,8 +43,25 @@ export async function GET(req: Request) {
       return new NextResponse('User Not Found', { status: 404 });
     }
 
+    interface DateFilter {
+      gte?: Date;
+      lte?: Date;
+    }
+
+    const filter = { userId, createdAt: {} as DateFilter };
+
+    if (startDate || endDate) {
+      filter['createdAt'] = {};
+      if (startDate) {
+        filter['createdAt']['gte'] = new Date(startDate);
+      }
+      if (endDate) {
+        filter['createdAt']['lte'] = new Date(endDate);
+      }
+    }
+
     const incomes = await prisma.income.findMany({
-      where: { userId },
+      where: filter,
     });
 
     return NextResponse.json(incomes);

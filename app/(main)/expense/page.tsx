@@ -9,7 +9,7 @@ import useIncome from '@/hooks/useIncome';
 
 export default function Page() {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const { incomes, postIncomes, updateIncomes } = useIncome({
+  const { incomes, fetchIncomes, postIncomes, updateIncomes } = useIncome({
     currentDate,
   });
 
@@ -25,6 +25,7 @@ export default function Page() {
           currentDate={currentDate}
           onDateClick={handleDateClick}
           incomes={incomes}
+          fetchIncomes={fetchIncomes}
         />
 
         <div className='flex flex-col w-full h-11 rounded-md p-2'>
