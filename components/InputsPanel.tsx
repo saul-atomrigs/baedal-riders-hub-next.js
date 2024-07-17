@@ -54,6 +54,7 @@ export default function InputsPanel({
           type='number'
           value={income.baemin}
           onChange={(e) => setIncome({ ...income, baemin: +e.target.value })}
+          onFocus={(e) => e.target.select()}
         />
         <Input
           placeholder='원'
@@ -61,6 +62,7 @@ export default function InputsPanel({
           type='number'
           value={income.coupang}
           onChange={(e) => setIncome({ ...income, coupang: +e.target.value })}
+          onFocus={(e) => e.target.select()}
         />
       </form>
 
