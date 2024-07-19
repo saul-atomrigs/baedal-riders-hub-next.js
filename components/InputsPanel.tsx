@@ -64,11 +64,10 @@ export default function InputsPanel({
           onChange={(e) => setIncome({ ...income, coupang: +e.target.value })}
           onFocus={(e) => e.target.select()}
         />
+        <Button variant='primary' type='submit'>
+          등록
+        </Button>
       </form>
-
-      <Button variant='primary' onClick={handlePost}>
-        등록
-      </Button>
     </div>
   );
 }
