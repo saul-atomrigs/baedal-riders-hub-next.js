@@ -1,22 +1,23 @@
 import { NextResponse } from 'next/server';
 import { getUserIdByKakaoId } from '@/lib/actions/getUserIdByKakaoId';
 import prisma from '@/lib/prismadb';
+import { parseISO, addHours, format } from 'date-fns';
 
 export async function POST(req: Request) {
   const { kakaoId, baeminIncome, coupangIncome, createdAt } =
     await new Response(req.body).json();
 
-  if (!kakaoId || !baeminIncome || !coupangIncome) {
-    console.log('no kakaoId or income');
-  }
-
   try {
+    const utcDate = parseISO(createdAt);
+    const kstDate = addHours(utcDate, 9);
+    const kstDateStr = format(kstDate, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+
     const newIncome = await prisma.income.create({
       data: {
         userId: (await getUserIdByKakaoId(kakaoId)) || '',
         baeminIncome,
         coupangIncome,
-        createdAt,
+        createdAt: kstDateStr,
       },
     });
 
