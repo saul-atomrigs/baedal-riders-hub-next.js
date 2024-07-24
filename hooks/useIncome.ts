@@ -12,6 +12,11 @@ export type IncomeData = {
   coupang: number;
 };
 
+export type FetchIncomes = (
+  startDate?: string,
+  endDate?: string
+) => Promise<any[]>;
+
 const useIncome = ({ currentDate }: IncomeProps) => {
   const { data: session } = useSession();
   const kakaoId = session?.user?.id || '';
@@ -27,6 +32,7 @@ const useIncome = ({ currentDate }: IncomeProps) => {
         }
         const response = await axios.get(url);
         setIncomes(response.data);
+        return response.data;
       } catch (error) {
         console.log('[incomes page]', error);
       }
