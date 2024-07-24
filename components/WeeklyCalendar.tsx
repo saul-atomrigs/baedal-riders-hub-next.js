@@ -4,13 +4,14 @@ import { Input } from './ui/input';
 import WeekSelect from './WeekSelect';
 import useTargetIncome from '@/hooks/useTargetIncome';
 import useSelectWeek from '@/hooks/useSelectWeek';
+import type { FetchIncomes } from '@/hooks/useIncome';
 
 type WeeklyCalendarProps = {
   label: string;
   currentDate: Date;
   onDateClick: (date: Date) => void;
   incomes: IncomeType[];
-  fetchIncomes: (startDate: string, endDate: string) => void;
+  fetchIncomes: FetchIncomes;
 };
 
 export default function WeeklyCalendar({
@@ -48,7 +49,10 @@ export default function WeeklyCalendar({
       <div className='flex justify-between'>
         <div className='w-[150px]'>
           <h3>{label}</h3>
-          <WeekSelect onSelectWeek={handleSelectWeek} />
+          <WeekSelect
+            onSelectWeek={handleSelectWeek}
+            fetchIncomes={fetchIncomes}
+          />
         </div>
         <div className='w-[100px]'>
           <p>일일 목표</p>
