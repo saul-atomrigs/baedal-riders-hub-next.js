@@ -1,10 +1,11 @@
 import { format, addDays, isSameDay } from 'date-fns';
+
 import { type IncomeType } from '@/app/api/incomes/route';
-import { Input } from './ui/input';
-import WeekSelect from './WeekSelect';
-import useTargetIncome from '@/hooks/useTargetIncome';
+import { type FetchIncomes } from '@/hooks/useIncome';
 import useSelectWeek from '@/hooks/useSelectWeek';
-import type { FetchIncomes } from '@/hooks/useIncome';
+import useTargetIncome from '@/hooks/useTargetIncome';
+import WeekSelect from '@/components/WeekSelect';
+import { Input } from '@/components/ui/input';
 
 type WeeklyCalendarProps = {
   currentDate: Date;
