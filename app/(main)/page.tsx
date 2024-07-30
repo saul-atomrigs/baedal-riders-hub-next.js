@@ -1,7 +1,7 @@
 'use client';
 
+import Income from '@/app/(main)/income/page';
+
 export default function InitialPage() {
-  return (
-    <div className='flex flex-col items-center justify-center min-h-screen gap-y-2'></div>
-  );
+  return <Income />;
 }

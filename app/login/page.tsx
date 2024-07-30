@@ -17,7 +17,7 @@ export default function InitialPage() {
         <button
           onClick={() =>
             signIn('kakao', {
-              callbackUrl: '/expense',
+              callbackUrl: '/',
             })
           }
           className='mt-5'

@@ -14,7 +14,7 @@ export default function NavigationMenuModal() {
       <DialogContent className='w-full h-full flex flex-col gap-y-10 py-20'>
         <Link
           onClick={closeModal}
-          href='/expense'
+          href='/income'
           className='block px-2 py-1 rounded-md shadow-sm bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100'
         >
           내 가계부
