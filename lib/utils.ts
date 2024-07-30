@@ -77,5 +77,6 @@ export function parseWeekData(response: any[]) {
     });
   }
 
+  parsedData.sort((a, b) => b.value.localeCompare(a.value));
   return parsedData;
 }
