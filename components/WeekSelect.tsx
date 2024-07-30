@@ -43,14 +43,16 @@ export default function WeekSelect({
   return (
     <Select onValueChange={handleSelect}>
       <SelectTrigger className='w-[180px]'>
-        <SelectValue placeholder='-- 주 --' />
+        <SelectValue placeholder={weekData[0]?.label} />
       </SelectTrigger>
       <SelectContent>
-        {weekData.map((week) => (
-          <SelectItem key={week.id} value={week.value}>
-            {week.label}
-          </SelectItem>
-        ))}
+        {weekData.map((week) => {
+          return (
+            <SelectItem key={week.id} value={week.value}>
+              {week.label}
+            </SelectItem>
+          );
+        })}
       </SelectContent>
     </Select>
   );

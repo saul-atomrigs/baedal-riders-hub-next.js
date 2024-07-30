@@ -33,24 +33,29 @@ export function removeFromLocalStorage(key: string) {
   localStorage.removeItem(key);
 }
 
+function getWeekLabelAndValue(date: Date) {
+  const weekStart = startOfWeek(date, { weekStartsOn: 1 });
+  const weekEnd = endOfWeek(date, { weekStartsOn: 1 });
+  const startOfMonthDate = startOfMonth(weekStart);
+  const weekNumber =
+    differenceInCalendarWeeks(weekStart, startOfMonthDate, {
+      weekStartsOn: 1,
+    }) + 1;
+  const label = `${format(weekStart, 'yyyy년 M월')} ${weekNumber}주`;
+  const value = `${format(weekStart, 'yyyy-MM-dd')}_to_${format(
+    weekEnd,
+    'yyyy-MM-dd'
+  )}`;
+
+  return { label, value };
+}
+
 export function parseWeekData(response: any[]) {
   const uniqueLabels = new Set();
   const parsedData: any[] = [];
 
   response.forEach((entry) => {
-    const createdAt = parseISO(entry.createdAt);
-    const weekStart = startOfWeek(createdAt, { weekStartsOn: 1 });
-    const weekEnd = endOfWeek(createdAt, { weekStartsOn: 1 });
-    const startOfMonthDate = startOfMonth(weekStart);
-    const weekNumber =
-      differenceInCalendarWeeks(weekStart, startOfMonthDate, {
-        weekStartsOn: 1,
-      }) + 1;
-    const label = `${format(weekStart, 'yyyy년 M월')} ${weekNumber}주`;
-    const value = `${format(weekStart, 'yyyy-MM-dd')}_to_${format(
-      weekEnd,
-      'yyyy-MM-dd'
-    )}`;
+    const { label, value } = getWeekLabelAndValue(parseISO(entry.createdAt));
 
     if (!uniqueLabels.has(label)) {
       uniqueLabels.add(label);
@@ -58,5 +63,20 @@ export function parseWeekData(response: any[]) {
     }
   });
 
+  // Calculate the current week and add it if not already included
+  const { label: currentLabel, value: currentValue } = getWeekLabelAndValue(
+    new Date()
+  );
+
+  if (!uniqueLabels.has(currentLabel)) {
+    uniqueLabels.add(currentLabel);
+    parsedData.push({
+      id: 'current',
+      label: currentLabel,
+      value: currentValue,
+    });
+  }
+
+  parsedData.sort((a, b) => b.value.localeCompare(a.value));
   return parsedData;
 }
