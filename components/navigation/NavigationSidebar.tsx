@@ -11,7 +11,7 @@ export default function NavigationSidebar() {
       <h2 className='text-2xl font-bold m-3'>LOGO</h2>
       <nav className='text-sm mx-3 mb-3'>
         <NavigationItem
-          href='/expense'
+          href='/income'
           children='내 가계부'
           icon={<DollarSign />}
         />
