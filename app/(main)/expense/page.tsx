@@ -1,6 +1,5 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 
 import InputsPanel from '@/components/InputsPanel';
@@ -21,16 +20,13 @@ export default function Page() {
     <div className='flex flex-col justify-center items-center h-screen'>
       <div className='flex flex-col gap-5'>
         <WeeklyCalendar
-          label='이번주 실적'
           currentDate={currentDate}
-          onDateClick={handleDateClick}
           incomes={incomes}
           fetchIncomes={fetchIncomes}
+          onDateClick={handleDateClick}
         />
 
         <div className='flex flex-col w-full h-11 rounded-md p-2'>
-          {/* <DisplayPanel currentDate={currentDate} /> */}
-
           <InputsPanel
             currentDate={currentDate}
             incomes={incomes}
