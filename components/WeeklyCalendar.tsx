@@ -7,7 +7,6 @@ import useSelectWeek from '@/hooks/useSelectWeek';
 import type { FetchIncomes } from '@/hooks/useIncome';
 
 type WeeklyCalendarProps = {
-  label: string;
   currentDate: Date;
   onDateClick: (date: Date) => void;
   incomes: IncomeType[];
@@ -15,7 +14,6 @@ type WeeklyCalendarProps = {
 };
 
 export default function WeeklyCalendar({
-  label,
   currentDate,
   onDateClick,
   incomes,
@@ -48,7 +46,7 @@ export default function WeeklyCalendar({
     <div className='flex flex-col gap-3'>
       <div className='flex justify-between'>
         <div className='w-[150px]'>
-          <h3>{label}</h3>
+          <h3>이번주 실적</h3>
           <WeekSelect
             onSelectWeek={handleSelectWeek}
             fetchIncomes={fetchIncomes}
