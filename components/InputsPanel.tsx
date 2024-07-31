@@ -65,7 +65,7 @@ export default function InputsPanel({
           onFocus={(e) => e.target.select()}
         />
         <Button variant='primary' type='submit'>
-          등록
+          <p>등록하기</p>
         </Button>
       </form>
     </div>
