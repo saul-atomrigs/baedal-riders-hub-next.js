@@ -12,6 +12,7 @@ model User {
   kakaoId       String?   @unique
   name          String?
   bicycleType   String?
+  targetIncome  Int?      @default(100000)
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @updatedAt @map(name: "updated_at")
 
