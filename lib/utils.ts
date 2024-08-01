@@ -13,6 +13,15 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export const handleEnterKey = (
+  e: React.KeyboardEvent<HTMLInputElement>,
+  saveCallback: () => void
+) => {
+  if (e.key === 'Enter') {
+    saveCallback();
+  }
+};
+
 export function formatDateInKorean(date: Date) {
   return date.toLocaleDateString('ko-KR', {
     year: 'numeric',

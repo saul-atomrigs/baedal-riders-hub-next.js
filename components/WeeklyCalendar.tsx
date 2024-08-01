@@ -6,6 +6,7 @@ import useSelectWeek from '@/hooks/useSelectWeek';
 import useTargetIncome from '@/hooks/useTargetIncome';
 import WeekSelect from '@/components/WeekSelect';
 import { Input } from '@/components/ui/input';
+import { handleEnterKey } from '@/lib/utils';
 
 type WeeklyCalendarProps = {
   currentDate: Date;
@@ -59,8 +60,9 @@ export default function WeeklyCalendar({
             type='number'
             placeholder='원'
             value={targetIncome}
-            onChange={(e) => setTargetIncome(e.target.value)}
+            onChange={(e) => setTargetIncome(+e.target.value)}
             onBlur={handleSaveTargetIncome}
+            onKeyDown={(e) => handleEnterKey(e, handleSaveTargetIncome)}
           />
         </div>
       </div>
