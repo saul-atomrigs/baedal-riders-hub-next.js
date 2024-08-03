@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useModalStore } from '@/hooks/useModalStore';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import ModeSelect from '@/components/ModeSelect';
+import BuyMeACoffeeButton from '@/components/BuyMeACoffeeButton';
 
 export default function NavigationMenuModal() {
   const { isOpen, closeModal, type } = useModalStore();
@@ -32,6 +33,7 @@ export default function NavigationMenuModal() {
             <ModeSelect />
           </div>
         </div>
+        <BuyMeACoffeeButton />
       </DialogContent>
     </Dialog>
   );
