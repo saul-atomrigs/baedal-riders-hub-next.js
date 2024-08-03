@@ -10,32 +10,24 @@ export default function useSelectWeek({
   currentDate: Date;
   fetchIncomes: FetchIncomes;
 }) {
+  const CURRENT_WEEK_START_DATE = startOfWeek(currentDate, { weekStartsOn: 1 });
   const [selectedWeekStart, setSelectedWeekStart] = useState(
-    startOfWeek(currentDate, { weekStartsOn: 1 })
+    CURRENT_WEEK_START_DATE
   );
-  const [weeks, setWeeks] = useState<
-    { id: string; label: string; value: string }[]
-  >([]);
 
   useEffect(() => {
-    const firstDayOfWeek = startOfWeek(currentDate, { weekStartsOn: 1 });
-    setSelectedWeekStart(firstDayOfWeek);
-
-    const loadWeeks = async () => {
+    (async () => {
       const incomes = await fetchIncomes();
-      const weekData = parseWeekData(incomes);
-      setWeeks(weekData);
-    };
-
-    loadWeeks();
+      parseWeekData(incomes);
+    })();
   }, [currentDate]);
 
   const handleSelectWeek = async (startDate: string, endDate: string) => {
     const start = parseISO(startDate);
     setSelectedWeekStart(start);
     const incomes = await fetchIncomes(startDate, endDate);
-    setWeeks(parseWeekData(incomes));
+    parseWeekData(incomes);
   };
 
-  return { selectedWeekStart, handleSelectWeek, weeks };
+  return { selectedWeekStart, handleSelectWeek };
 }
