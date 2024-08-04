@@ -9,12 +9,12 @@ type TargetIncomeProps = {
 };
 
 export default function useTargetIncome({ incomes }: TargetIncomeProps) {
-  const [targetIncome, setTargetIncome] = useState<number>(100000); // Initialize with null or undefined to indicate loading
+  const [targetIncome, setTargetIncome] = useState<number>(100000);
   const { data: session } = useSession();
   const kakaoId = session?.user?.id || '';
 
   useEffect(() => {
-    const fetchTargetIncome = async () => {
+    (async () => {
       if (kakaoId) {
         try {
           const response = await axios.get('/api/user/target-income', {
@@ -29,10 +29,8 @@ export default function useTargetIncome({ incomes }: TargetIncomeProps) {
           setTargetIncome(0); // Fallback to a default value if error occurs
         }
       }
-    };
-
-    fetchTargetIncome();
-  }, [kakaoId]); // Dependency on kakaoId, will run again if kakaoId changes
+    })();
+  }, [kakaoId]);
 
   const handleSaveTargetIncome = async () => {
     if (incomes.length > 0 && kakaoId) {
