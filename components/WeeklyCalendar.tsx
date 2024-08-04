@@ -78,7 +78,7 @@ export default function WeeklyCalendar({
               {/* Container for bar graph */}
               <div className='flex flex-col-reverse items-center h-24 mb-2'>
                 <div
-                  className='bg-blue-500 w-4'
+                  className='bg-blue-400 w-4 rounded-sm'
                   style={{
                     height: `${(barsData[index] * 100) / +targetIncome}px`,
                   }}
