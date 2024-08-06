@@ -43,17 +43,22 @@ export default function WeekSelect({
 
   return (
     <Select onValueChange={handleSelect}>
-      <SelectTrigger className='w-[180px]'>
+      <SelectTrigger style={{ width: '180px' }}>
         <SelectValue placeholder={weekData[0]?.label} />
       </SelectTrigger>
-      <SelectContent>
-        {weekData.map((week) => {
-          return (
-            <SelectItem key={week.id} value={week.value}>
-              {week.label}
-            </SelectItem>
-          );
-        })}
+      <SelectContent
+        style={{
+          maxHeight: '200px',
+          overflowY: 'auto',
+          scrollbarWidth: 'thin' /* For Firefox */,
+          scrollbarColor: '#888 #e0e0e0' /* For Firefox */,
+        }}
+      >
+        {weekData.map((week) => (
+          <SelectItem key={week.id} value={week.value}>
+            {week.label}
+          </SelectItem>
+        ))}
       </SelectContent>
     </Select>
   );
