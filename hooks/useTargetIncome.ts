@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
+import { useQuery, useMutation } from '@tanstack/react-query';
 
 import { type IncomeType } from '@/app/api/incomes/route';
 
@@ -8,42 +9,52 @@ type TargetIncomeProps = {
   incomes: IncomeType[];
 };
 
+const fetchTargetIncome = async (kakaoId: string) => {
+  const response = await axios.get('/api/user/target-income', {
+    params: { kakaoId },
+  });
+  console.log('fetchTargetIncome', response.data.targetIncome);
+  return response.data.targetIncome;
+};
+
+const updateTargetIncome = async ({
+  kakaoId,
+  targetIncome,
+}: {
+  kakaoId: string;
+  targetIncome: number;
+}) => {
+  const response = await axios.patch('/api/user/target-income', {
+    kakaoId,
+    targetIncome,
+  });
+  return response.data;
+};
+
 export default function useTargetIncome({ incomes }: TargetIncomeProps) {
   const [targetIncome, setTargetIncome] = useState<number>(100000);
   const { data: session } = useSession();
   const kakaoId = session?.user?.id || '';
 
+  const targetIncomeQuery = useQuery({
+    queryKey: ['targetIncome', kakaoId],
+    queryFn: () => fetchTargetIncome(kakaoId),
+  });
+
   useEffect(() => {
-    (async () => {
-      if (kakaoId) {
-        try {
-          const response = await axios.get('/api/user/target-income', {
-            params: { kakaoId },
-          });
+    if (targetIncomeQuery.data !== undefined) {
+      setTargetIncome(targetIncomeQuery.data);
+    }
+  }, [targetIncomeQuery.data]);
 
-          if (response.data) {
-            setTargetIncome(response.data.targetIncome || 0); // Fallback to 0 if no targetIncome is found
-          }
-        } catch (error) {
-          console.error('Error fetching target income:', error);
-          setTargetIncome(0); // Fallback to a default value if error occurs
-        }
-      }
-    })();
-  }, [kakaoId]);
+  const targetIncomeMutation = useMutation({
+    mutationFn: updateTargetIncome,
+  });
 
-  const handleSaveTargetIncome = async () => {
+  const handleSaveTargetIncome = () => {
     if (incomes.length > 0 && kakaoId) {
-      try {
-        const response = await axios.patch('/api/user/target-income', {
-          kakaoId,
-          targetIncome,
-        });
-
-        console.log('Updated user:', response.data);
-      } catch (error) {
-        console.error('Error saving target income:', error);
-      }
+      targetIncomeMutation.mutate({ kakaoId, targetIncome });
+      console.log('Updated target income:', targetIncome);
     }
   };
 

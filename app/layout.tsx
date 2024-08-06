@@ -1,9 +1,12 @@
 import type { ReactNode } from 'react';
 import type { Metadata } from 'next';
 import './globals.css';
-import { ThemeProvider } from '@/components/providers/ThemeProvider';
-import { ModalProvider } from '@/components/providers/ModalProvider';
-import { AuthProvider } from '@/components/providers/AuthProvider';
+import {
+  AuthProvider,
+  QueryProvider,
+  ModalProvider,
+  ThemeProvider,
+} from '@/components/providers';
 
 export const metadata: Metadata = {
   title: 'Baedal Riders Hub',
@@ -19,10 +22,12 @@ export default function RootLayout({
     <html lang='en' suppressHydrationWarning>
       <body>
         <AuthProvider>
-          <ThemeProvider attribute='class'>
-            <ModalProvider />
-            {children}
-          </ThemeProvider>
+          <QueryProvider>
+            <ThemeProvider attribute='class'>
+              <ModalProvider />
+              {children}
+            </ThemeProvider>
+          </QueryProvider>
         </AuthProvider>
       </body>
     </html>
